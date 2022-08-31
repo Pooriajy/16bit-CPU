@@ -1,0 +1,42 @@
+what a nice day to build a cpu :)
+
+this is a 16bit RISC cpu design. the goal is to create the emulator in c++ and later on create an assembler.
+
+### Instruction format ###
+RRR:
+3 bits of opcode
+3 bits for regA
+3 bits for regB
+4 bits of zero
+3 bits of regC
+
+RRI:
+3 bits of opcode
+3 bits of regA
+3 bits of regB
+7 bits of immediate (from -64 to 63)
+
+RI:
+3 bits of opcode
+3 bits of regA
+10 bits of immediate(0 to 0x3FF)
+
+### Instruction Set ###
+ADD : 000 regA regB 0000 regC
+ADDI: 001 regA regB (7bits of signed immediate)
+NAND: 010 regA regB 0000 regC
+LUI : 011 regA (0 to 0x3FF)
+SW  : 100 regA regB (7bits of signed immediate)
+LW  : 101 regA regB (7bits of signed immediate)
+BEQ : 110 regA regB (7bits of signed immediate)
+JALR: 111 regA regB 0000000
+
+### Assembly ###
+ADD : add rA,rB,rC >> store summation of rB+rC in rA.
+ADDI: addi rA,rB,imm >> store summation of rB+imm in rA.
+NAND: nand rA,rB,rC >> store nand of rB,rC in rA.
+LUI : lui rA,imm >> store the upper ten bits of imm in rA making lower six bits of rA zero.
+SW  : sw rA,rB,imm >> store value of rA in memory, the memory address is rB+imm.
+LW  : lw rA,rB,imm >> load word from memory to rA, the memory address is rB+imm
+BEQ : beq rA,rB,imm >> if rA=rB then branch to address PC+1+imm where PC is address of beq.
+JALR: jalr rA,rB >> branch to rB and store PC+1 in rA.
